@@ -3,10 +3,12 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { useState } from 'react';
 
 export default function AuthenticatedLayout({ header, children }) {
   const user = usePage().props.auth.user;
+  const { t } = useLaravelReactI18n();
 
   const [showingNavigationDropdown, setShowingNavigationDropdown] =
     useState(false);
@@ -28,7 +30,7 @@ export default function AuthenticatedLayout({ header, children }) {
                   href={route('dashboard')}
                   active={route().current('dashboard')}
                 >
-                  Dashboard
+                  {t('Dashboard')}
                 </NavLink>
               </div>
             </div>
@@ -62,14 +64,14 @@ export default function AuthenticatedLayout({ header, children }) {
 
                   <Dropdown.Content>
                     <Dropdown.Link href={route('profile.edit')}>
-                      Profile
+                      {t('Profile')}
                     </Dropdown.Link>
                     <Dropdown.Link
                       href={route('logout')}
                       method='post'
                       as='button'
                     >
-                      Log Out
+                      {t('Log Out')}
                     </Dropdown.Link>
                   </Dropdown.Content>
                 </Dropdown>
@@ -125,7 +127,7 @@ export default function AuthenticatedLayout({ header, children }) {
               href={route('dashboard')}
               active={route().current('dashboard')}
             >
-              Dashboard
+              {t('Dashboard')}
             </ResponsiveNavLink>
           </div>
 
@@ -141,14 +143,14 @@ export default function AuthenticatedLayout({ header, children }) {
 
             <div className='mt-3 space-y-1'>
               <ResponsiveNavLink href={route('profile.edit')}>
-                Profile
+                {t('Profile')}
               </ResponsiveNavLink>
               <ResponsiveNavLink
                 method='post'
                 href={route('logout')}
                 as='button'
               >
-                Log Out
+                {t('Log Out')}
               </ResponsiveNavLink>
             </div>
           </div>
