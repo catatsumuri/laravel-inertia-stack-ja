@@ -14,16 +14,20 @@ export default function UpdateProfileInformation({
   const user = usePage().props.auth.user;
   const { t } = useLaravelReactI18n();
 
-  const { data, setData, patch, errors, processing, recentlySuccessful } =
+  const hasAvatar = usePage().props.hasAvatar;
+
+  const { data, setData, post, errors, processing, recentlySuccessful } =
     useForm({
       name: user.name,
       email: user.email,
+      avatar: null,
+      _method: 'patch',
     });
 
   const submit = (e) => {
     e.preventDefault();
 
-    patch(route('profile.update'));
+    post(route('profile.update'));
   };
 
   return (
@@ -69,6 +73,22 @@ export default function UpdateProfileInformation({
           />
 
           <InputError className='mt-2' message={errors.email} />
+        </div>
+
+        <div>
+          <InputLabel htmlFor='avatar' value={t('Avatar')} />
+
+          <input type="file" onChange={e => setData('avatar', e.target.files[0])} />
+
+          <InputError className='mt-2' message={errors.avatar} />
+
+
+          {/* display the current avatar */}
+          {hasAvatar && (
+          <div className='mt-2'>
+            <img src={route('profile.avatar', 'thumb')} alt={user.name} />
+          </div>
+          )}
         </div>
 
         {mustVerifyEmail && user.email_verified_at === null && (

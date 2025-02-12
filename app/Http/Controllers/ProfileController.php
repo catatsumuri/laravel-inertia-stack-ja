@@ -21,6 +21,7 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'hasAvatar' => $request->user()->hasMedia('avatar'),
         ]);
     }
 
@@ -36,6 +37,12 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
+        // Avater if exists save to spatie media collection
+        if ($request->hasFile('avatar')) {
+            $request->user()->addMediaFromRequest('avatar')
+                ->toMediaCollection('avatar');
+        }
 
         return Redirect::route('profile.edit');
     }
@@ -59,5 +66,18 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function avatar($size = '')
+    {
+        // Get the user's avatar
+        $avatar = Auth::user()->getFirstMedia('avatar');
+        //return inline response with mime type
+        $path = $avatar->getPath($size);
+        $type = $avatar->mime_type;
+        return response()->file($path, [
+            'Content-Type' => $type,
+            'Content-Disposition' => 'inline',
+        ]);
     }
 }
