@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 // use spatie medialibs
 use Spatie\MediaLibrary\HasMedia;
@@ -68,4 +70,10 @@ class User extends Authenticatable implements HasMedia
               ->sharpen(10)
               ->nonQueued();
     }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(File::class);
+    }
+
 }

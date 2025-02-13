@@ -30,6 +30,7 @@
         "vite": "^6.0"
     },
     "dependencies": {
-        "laravel-react-i18n": "^2.0.5"
+        "laravel-react-i18n": "^2.0.5",
+        "yet-another-react-lightbox": "^3.21.7"
     }
 }

@@ -32,6 +32,12 @@ export default function AuthenticatedLayout({ header, children }) {
                 >
                   {t('Dashboard')}
                 </NavLink>
+                <NavLink
+                  href={route('files.index')}
+                  active={route().current('files.*')}
+                >
+                  {t('File')}
+                </NavLink>
               </div>
             </div>
 
